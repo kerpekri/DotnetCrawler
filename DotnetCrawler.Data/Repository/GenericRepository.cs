@@ -11,11 +11,11 @@ namespace DotnetCrawler.Data.Repository
     //used this resources : https://codingblast.com/entity-framework-core-generic-repository/
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
     {
-        private readonly MicrosofteShopOnWebCatalogDbContext _dbContext;
+        private readonly CrawlerContext _dbContext;
 
         public GenericRepository()
         {
-            _dbContext = new MicrosofteShopOnWebCatalogDbContext();            
+            _dbContext = new CrawlerContext();
         }
 
         public IQueryable<TEntity> GetAll()
@@ -23,7 +23,7 @@ namespace DotnetCrawler.Data.Repository
             return _dbContext.Set<TEntity>().AsNoTracking();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(Guid id)
         {
             return await _dbContext.Set<TEntity>()
                         .AsNoTracking()
@@ -42,7 +42,7 @@ namespace DotnetCrawler.Data.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
             var entity = await GetById(id);
             _dbContext.Set<TEntity>().Remove(entity);

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DotnetCrawler.Data.Repository
 {
-    public interface IGenericRepository<TEntity> where TEntity : class, IEntity
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
         IQueryable<TEntity> GetAll();
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(Guid id);
         Task CreateAsync(TEntity entity);
         Task Update(int id, TEntity entity);
-        Task Delete(int id);
+        Task Delete(Guid id);
     }
 }

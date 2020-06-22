@@ -4,28 +4,29 @@ using DotnetCrawler.Downloader;
 using DotnetCrawler.Pipeline;
 using DotnetCrawler.Processor;
 using DotnetCrawler.Request;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotnetCrawler.Sample
 {
-    class Program
+    public class Program
     {
-        private static readonly string dummyUrl = "https://clarteys.lv/";
+        public const string LandUrl = "https://clarteys.lv/izsoles?ni_type=1&type=ni";
+        public const string HouseUrl = "https://clarteys.lv/izsoles?ni_type=2&type=ni";
+        public const string ApartmentUrl = "https://clarteys.lv/izsoles?ni_type=3&type=ni";
+        public const string RegExp = @".*izsole/.+";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             MainAsync(args).Wait();
         }
 
-        static async Task MainAsync(string[] args)
+        public static async Task MainAsync(string[] args)
         {
-            var crawler = new DotnetCrawler<Catalog>()
-                .AddRequest(new DotnetCrawlerRequest { Url = dummyUrl, Regex = @".*izsole/.+", TimeOut = 5000 })
+            var crawler = new DotnetCrawler<Apartment>()
+                .AddRequest(new DotnetCrawlerRequest { Url = ApartmentUrl, Regex = RegExp, TimeOut = 5000 })
                 .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromFile, DownloadPath = @"C:\DotnetCrawlercrawler\" })
-                .AddProcessor(new DotnetCrawlerProcessor<Catalog> { })
-                .AddPipeline(new DotnetCrawlerPipeline<Catalog> { });
+                .AddProcessor(new DotnetCrawlerProcessor<Apartment> { })
+                .AddPipeline(new DotnetCrawlerPipeline<Apartment> { });
 
             await crawler.Crawle();
         }

@@ -51,21 +51,26 @@ namespace DotnetCrawler.Downloader
                 HtmlWeb web = new HtmlWeb();
                 var htmlDocument = await web.LoadFromWebAsync(url);
 
-                var linkList = htmlDocument.DocumentNode
-                                   .Descendants("a")
-                                   .Select(a => a.GetAttributeValue("href", null))
-                                   .Where(u => !string.IsNullOrEmpty(u))
-                                   .Distinct();
+                IEnumerable<string> links = ProcessLinks(htmlDocument);
 
                 if (_regex != null)
-                    linkList = linkList.Where(x => _regex.IsMatch(x));
+                    links = links.Where(x => _regex.IsMatch(x));
 
-                return linkList;
+                return links;
             }
             catch (Exception exception)
             {
                 return Enumerable.Empty<string>();
             }
+        }
+
+        private static IEnumerable<string> ProcessLinks(HtmlDocument htmlDocument)
+        {
+            return htmlDocument.DocumentNode
+                .Descendants("a")
+                .Select(a => a.GetAttributeValue("href", null))
+                .Where(u => !string.IsNullOrEmpty(u))
+                .Distinct();
         }
 
         private async Task<IEnumerable<string>> GetAllPagesLinks(IEnumerable<string> rootUrls)
