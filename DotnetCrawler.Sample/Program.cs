@@ -12,18 +12,20 @@ namespace DotnetCrawler.Sample
 {
     class Program
     {
+        private static readonly string dummyUrl = "https://clarteys.lv/";
+
         static void Main(string[] args)
         {
             MainAsync(args).Wait();
         }
 
         static async Task MainAsync(string[] args)
-        {            
+        {
             var crawler = new DotnetCrawler<Catalog>()
-                                 .AddRequest(new DotnetCrawlerRequest { Url = "https://www.ebay.com/b/Apple-iPhone/9355/bn_319682", Regex = @".*itm/.+", TimeOut = 5000 })
-                                 .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromMemory, DownloadPath = @"C:\DotnetCrawlercrawler\" })
-                                 .AddProcessor(new DotnetCrawlerProcessor<Catalog> { }) // a
-                                 .AddPipeline(new DotnetCrawlerPipeline<Catalog> { });
+                .AddRequest(new DotnetCrawlerRequest { Url = dummyUrl, Regex = @".*izsole/.+", TimeOut = 5000 })
+                .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromFile, DownloadPath = @"C:\DotnetCrawlercrawler\" })
+                .AddProcessor(new DotnetCrawlerProcessor<Catalog> { })
+                .AddPipeline(new DotnetCrawlerPipeline<Catalog> { });
 
             await crawler.Crawle();
         }
