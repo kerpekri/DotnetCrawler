@@ -7,22 +7,21 @@ using System.Text;
 
 namespace DotnetCrawler.Data.Models
 {
-    //[DotnetCrawlerEntity(XPath = "//*[@id='offer__info']/div[1]")]
+    [DotnetCrawlerEntity(XPath = "//*[@class='offer__info']")]
     public partial class Apartment : IEntity
     {
         public Guid Id { get; set; }
+
+        [DotnetCrawlerField(Expression = "//li[7]/div[2]/b/text()", SelectorType = SelectorType.XPath)]
         public string StartingPrice { get; set; }
+
+        [DotnetCrawlerField(Expression = "//li[5]/div[2]/a/text()", SelectorType = SelectorType.XPath)]
         public string Address { get; set; }
+
+        [DotnetCrawlerField(Expression = "//li[4]/div[2]/b/text()", SelectorType = SelectorType.XPath)]
         public string Rooms { get; set; }
+
+        [DotnetCrawlerField(Expression = "//li[3]/div[2]/b/text()", SelectorType = SelectorType.XPath)]
         public string Area { get; set; }
-
-        //[DotnetCrawlerField(Expression = "1", SelectorType = SelectorType.FixedValue)]
-        //public int CatalogBrandId { get; set; }
-
-        //[DotnetCrawlerField(Expression = "", SelectorType = SelectorType.CssSelector)]
-        //public string Name { get; set; }
-
-        //public virtual CatalogBrand CatalogBrand { get; set; }
-        //public virtual CatalogType CatalogType { get; set; }
     }
 }
