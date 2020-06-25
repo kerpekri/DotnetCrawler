@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DotnetCrawler.Data.Models.Clarteys;
+using DotnetCrawler.Data.Models.EIzsoles;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotnetCrawler.Data.Models
 {
@@ -10,22 +12,23 @@ namespace DotnetCrawler.Data.Models
             : base(options)
         { }
 
-        public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<ClarteysApartment> ClarteysApartments { get; set; }
+        public DbSet<EIzsolesThing> EIzsolesThings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=KKERPE\\SQLEXPRESS;Database=Microsoft.eShopOnWeb.CatalogDb;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=KKERPE\\SQLEXPRESS;Database=Crawler;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Apartment>()
+            modelBuilder.Entity<ClarteysApartment>()
                 .HasKey(b => b.Id);
 
-            modelBuilder.Entity<Apartment>(entity =>
+            modelBuilder.Entity<ClarteysApartment>(entity =>
             {
                 entity.Property(e => e.StartingPrice)
                     .IsRequired()

@@ -1,12 +1,12 @@
 ﻿using DotnetCrawler.Core;
-using DotnetCrawler.Data.Models;
+using DotnetCrawler.Data.Models.Clarteys;
 using DotnetCrawler.Downloader;
 using DotnetCrawler.Pipeline;
 using DotnetCrawler.Processor;
 using DotnetCrawler.Request;
 using System.Threading.Tasks;
 
-namespace DotnetCrawler.Sample
+namespace DotnetCrawler.Clarteys
 {
     public class Program
     {
@@ -22,11 +22,11 @@ namespace DotnetCrawler.Sample
 
         public static async Task MainAsync(string[] args)
         {
-            var crawler = new DotnetCrawler<Apartment>()
+            var crawler = new DotnetCrawler<ClarteysApartment>()
                 .AddRequest(new DotnetCrawlerRequest { Url = ApartmentUrl, Regex = RegExp, TimeOut = 5000 })
-                .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromFile, DownloadPath = @"C:\DotnetCrawlercrawler\" })
-                .AddProcessor(new DotnetCrawlerProcessor<Apartment> { })
-                .AddPipeline(new DotnetCrawlerPipeline<Apartment> { });
+                .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromFile, DownloadPath = @"C:\DotnetCrawlercrawler\Clarteys" })
+                .AddProcessor(new DotnetCrawlerProcessor<ClarteysApartment> { })
+                .AddPipeline(new DotnetCrawlerPipeline<ClarteysApartment> { });
 
             await crawler.Crawle();
         }

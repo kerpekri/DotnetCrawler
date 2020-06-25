@@ -4,7 +4,6 @@ using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DotnetCrawler.Processor
@@ -34,8 +33,17 @@ namespace DotnetCrawler.Processor
             var entityExpression = ReflectionHelper.GetEntityExpression<TEntity>();
             var propertyExpressions = ReflectionHelper.GetPropertyAttributes<TEntity>();
 
-            var entityNode = document.DocumentNode.SelectSingleNode(entityExpression);
+            // todo: kke: handle that this can be null!! and log this ASAP!
+            HtmlNode entityNode = document.DocumentNode.SelectSingleNode(entityExpression);
+            // todo: kke: handle that this can be null!! and log this ASAP!
 
+            ProcessProperties(columnNameValueDictionary, propertyExpressions, entityNode);
+
+            return columnNameValueDictionary;
+        }
+
+        private static void ProcessProperties(Dictionary<string, object> columnNameValueDictionary, Dictionary<string, Tuple<SelectorType, string>> propertyExpressions, HtmlNode entityNode)
+        {
             foreach (var expression in propertyExpressions)
             {
                 var columnName = expression.Key;
@@ -65,8 +73,6 @@ namespace DotnetCrawler.Processor
                 }
                 columnNameValueDictionary.Add(columnName, columnValue);
             }
-
-            return columnNameValueDictionary;
         }
     }
 }

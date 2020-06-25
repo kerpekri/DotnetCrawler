@@ -4,14 +4,16 @@ using DotnetCrawler.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotnetCrawler.Data.Migrations
 {
     [DbContext(typeof(CrawlerContext))]
-    partial class CrawlerContextModelSnapshot : ModelSnapshot
+    [Migration("20200625061859_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace DotnetCrawler.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DotnetCrawler.Data.Models.Clarteys.ClarteysApartment", b =>
+            modelBuilder.Entity("DotnetCrawler.Data.Models.ClarteysApartment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -43,18 +45,6 @@ namespace DotnetCrawler.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClarteysApartments");
-                });
-
-            modelBuilder.Entity("DotnetCrawler.Data.Models.EIzsoles.EIzsolesThing", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EIzsolesThings");
                 });
 #pragma warning restore 612, 618
         }

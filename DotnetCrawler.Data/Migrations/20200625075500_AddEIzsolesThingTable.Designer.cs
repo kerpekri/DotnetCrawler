@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetCrawler.Data.Migrations
 {
     [DbContext(typeof(CrawlerContext))]
-    [Migration("20200622150242_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200625075500_AddEIzsolesThingTable")]
+    partial class AddEIzsolesThingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DotnetCrawler.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DotnetCrawler.Data.Models.Apartment", b =>
+            modelBuilder.Entity("DotnetCrawler.Data.Models.Clarteys.ClarteysApartment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -44,7 +44,19 @@ namespace DotnetCrawler.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Apartments");
+                    b.ToTable("ClarteysApartments");
+                });
+
+            modelBuilder.Entity("DotnetCrawler.Data.Models.EIzsoles.EIzsolesThing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EIzsolesThings");
                 });
 #pragma warning restore 612, 618
         }

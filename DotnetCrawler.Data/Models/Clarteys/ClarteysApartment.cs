@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DotnetCrawler.Data.Models
+namespace DotnetCrawler.Data.Models.Clarteys
 {
     [DotnetCrawlerEntity(XPath = "//*[@class='offer__info']")]
-    public partial class Apartment : IEntity
+    public partial class ClarteysApartment : IEntity
     {
         public Guid Id { get; set; }
 

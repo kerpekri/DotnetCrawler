@@ -8,7 +8,7 @@ namespace DotnetCrawler.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Apartments",
+                name: "ClarteysApartments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -19,14 +19,14 @@ namespace DotnetCrawler.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Apartments", x => x.Id);
+                    table.PrimaryKey("PK_ClarteysApartments", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Apartments");
+                name: "ClarteysApartments");
         }
     }
 }
