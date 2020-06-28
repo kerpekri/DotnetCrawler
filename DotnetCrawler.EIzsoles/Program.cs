@@ -29,7 +29,7 @@ namespace DotnetCrawler.EIzsoles
         {
             return new DotnetCrawler<EIzsolesThing>()
                 .AddRequest(new DotnetCrawlerRequest { Url = RootUrl, Regex = RegExp, TimeOut = 10000 })
-                .AddDownloader(new DotnetCrawlerDownloader { })
+                .AddDownloader(new DotnetCrawlerDownloader(new WebClientService()) { })
                 .AddProcessor(new DotnetCrawlerProcessor<EIzsolesThing> { })
                 .AddPipeline(new DotnetCrawlerPipeline<EIzsolesThing> { });
         }

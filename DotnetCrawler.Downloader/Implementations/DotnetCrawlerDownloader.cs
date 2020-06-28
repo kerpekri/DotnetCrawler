@@ -7,11 +7,6 @@ namespace DotnetCrawler.Downloader.Implementations
     {
         private readonly IWebClientService _webClientService;
 
-        // todo: kke: Would be nice to get rid of this extra constructor!
-        public DotnetCrawlerDownloader() : this(new WebClientService())
-        {
-        }
-
         public DotnetCrawlerDownloader(IWebClientService webClientService)
         {
             _webClientService = webClientService;

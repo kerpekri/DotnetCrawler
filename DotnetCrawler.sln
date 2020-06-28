@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.Core", "Dotne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.EIzsoles", "DotnetCrawler.EIzsoles\DotnetCrawler.EIzsoles.csproj", "{2ABA941D-1E12-4401-944B-53603F410319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetCrawler.Tests", "DotnetCrawler.Tests\DotnetCrawler.Tests.csproj", "{72F2EDCE-9613-4032-9BD1-A3F81BF44022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.UnitTests", "DotnetCrawler.Tests\DotnetCrawler.UnitTests.csproj", "{72F2EDCE-9613-4032-9BD1-A3F81BF44022}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E0B34C23-52C1-46EB-8122-9E76C4B5AC1A} = {E0B34C23-52C1-46EB-8122-9E76C4B5AC1A}
 	EndProjectSection

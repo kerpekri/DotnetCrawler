@@ -12,26 +12,21 @@ namespace DotnetCrawler.Downloader
     /// Get Urls
     // https://codereview.stackexchange.com/questions/139783/web-crawler-that-uses-task-parallel-library 
     /// </summary>
-    public class DotnetCrawlerPageLinkReader
+    public class DotnetCrawlerPageLinkReader : IDotnetCrawlerPageLinkReader
     {
-        private readonly IDotnetCrawlerRequest _request;
-        private readonly Regex _regex;
+        private readonly IWebClientService _webClientService;
 
-        public DotnetCrawlerPageLinkReader(IDotnetCrawlerRequest request)
+        public DotnetCrawlerPageLinkReader(IWebClientService webClientService)
         {
-            _request = request;
-            if (!string.IsNullOrWhiteSpace(request.Regex))
-            {
-                _regex = new Regex(request.Regex);
-            }
+            _webClientService = webClientService;
         }
 
-        public async Task<IEnumerable<string>> GetLinks(string url, int level = 0)
+        public async Task<IEnumerable<string>> GetLinksAsync(DotnetCrawlerRequest request, int level = 0)
         {
             if (level < 0)
                 throw new ArgumentOutOfRangeException(nameof(level));
 
-            var rootUrls = await GetPageLinks(url, false);
+            var rootUrls = await GetPageLinksAsync(request);
 
             if (level == 0)
                 return rootUrls;
@@ -39,21 +34,25 @@ namespace DotnetCrawler.Downloader
             var links = await GetAllPagesLinks(rootUrls);
 
             --level;
-            var tasks = await Task.WhenAll(links.Select(link => GetLinks(link, level)));
+            var tasks = await Task.WhenAll(links.Select(link => GetLinksAsync(request, level)));
             return tasks.SelectMany(l => l);
         }
 
-        private async Task<IEnumerable<string>> GetPageLinks(string url, bool needMatch = true)
+        private async Task<IEnumerable<string>> GetPageLinksAsync(DotnetCrawlerRequest request)
         {
             try
             {
-                HtmlWeb web = new HtmlWeb();
-                var htmlDocument = await web.LoadFromWebAsync(url);
+                var htmlDocument = await _webClientService.FromWebAsync(request.Url);
 
                 IEnumerable<string> links = ProcessLinks(htmlDocument);
 
-                if (_regex != null)
-                    links = links.Where(x => _regex.IsMatch(x));
+                if (!string.IsNullOrWhiteSpace(request.Regex))
+                {
+                    var regex = new Regex(request.Regex);
+
+                    if (regex != null)
+                        links = links.Where(x => regex.IsMatch(x));
+                }
 
                 return links;
             }
@@ -74,7 +73,7 @@ namespace DotnetCrawler.Downloader
 
         private async Task<IEnumerable<string>> GetAllPagesLinks(IEnumerable<string> rootUrls)
         {
-            var result = await Task.WhenAll(rootUrls.Select(url => GetPageLinks(url)));
+            var result = await Task.WhenAll(rootUrls.Select(url => GetPageLinksAsync(new DotnetCrawlerRequest() { Url = url })));
 
             return result.SelectMany(x => x).Distinct();
         }

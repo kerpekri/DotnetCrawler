@@ -1,5 +1,6 @@
 ﻿using DotnetCrawler.Data.Repository;
 using DotnetCrawler.Downloader;
+using DotnetCrawler.Downloader.Implementations;
 using DotnetCrawler.Pipeline;
 using DotnetCrawler.Processor;
 using DotnetCrawler.Request;
@@ -10,7 +11,7 @@ namespace DotnetCrawler.Core
 {
     public class DotnetCrawler<TEntity> : IDotnetCrawler where TEntity : class, IEntity
     {
-        public IDotnetCrawlerRequest Request { get; private set; }
+        public DotnetCrawlerRequest Request { get; private set; }
         public IDotnetCrawlerDownloader Downloader { get; private set; }
         public IDotnetCrawlerProcessor<TEntity> Processor { get; private set; }
         public IDotnetCrawlerScheduler Scheduler { get; private set; }
@@ -21,7 +22,7 @@ namespace DotnetCrawler.Core
 
         }
 
-        public DotnetCrawler<TEntity> AddRequest(IDotnetCrawlerRequest request)
+        public DotnetCrawler<TEntity> AddRequest(DotnetCrawlerRequest request)
         {
             Request = request;
             return this;
@@ -53,8 +54,8 @@ namespace DotnetCrawler.Core
 
         public async Task Crawle()
         {
-            var linkReader = new DotnetCrawlerPageLinkReader(Request);
-            var links = await linkReader.GetLinks(Request.Url, 0);
+            var linkReader = new DotnetCrawlerPageLinkReader(new WebClientService());
+            var links = await linkReader.GetLinksAsync(Request, 0);
 
             foreach (var url in links)
             {

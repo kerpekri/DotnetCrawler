@@ -24,7 +24,7 @@ namespace DotnetCrawler.Clarteys
         {
             var crawler = new DotnetCrawler<ClarteysApartment>()
                 .AddRequest(new DotnetCrawlerRequest { Url = ApartmentUrl, Regex = RegExp, TimeOut = 5000 })
-                .AddDownloader(new DotnetCrawlerDownloader { })
+                .AddDownloader(new DotnetCrawlerDownloader(new WebClientService()) { })
                 .AddProcessor(new DotnetCrawlerProcessor<ClarteysApartment> { })
                 .AddPipeline(new DotnetCrawlerPipeline<ClarteysApartment> { });
 
