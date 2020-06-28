@@ -6,12 +6,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace DotnetCrawler.Downloader
+namespace DotnetCrawler.Downloader.Implementations
 {
-    /// <summary>
-    /// Get Urls
-    // https://codereview.stackexchange.com/questions/139783/web-crawler-that-uses-task-parallel-library 
-    /// </summary>
     public class DotnetCrawlerPageLinkReader : IDotnetCrawlerPageLinkReader
     {
         private readonly IWebClientService _webClientService;

@@ -1,4 +1,5 @@
 using DotnetCrawler.Downloader;
+using DotnetCrawler.Downloader.Implementations;
 using DotnetCrawler.Request;
 using FluentAssertions;
 using HtmlAgilityPack;
