@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.Pipeline", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.Core", "DotnetCrawler.Core\DotnetCrawler.Core.csproj", "{022684CF-07C9-40B9-905F-3723AD316C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetCrawler.EIzsoles", "DotnetCrawler.EIzsoles\DotnetCrawler.EIzsoles.csproj", "{2ABA941D-1E12-4401-944B-53603F410319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetCrawler.EIzsoles", "DotnetCrawler.EIzsoles\DotnetCrawler.EIzsoles.csproj", "{2ABA941D-1E12-4401-944B-53603F410319}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetCrawler.Tests", "DotnetCrawler.Tests\DotnetCrawler.Tests.csproj", "{72F2EDCE-9613-4032-9BD1-A3F81BF44022}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E0B34C23-52C1-46EB-8122-9E76C4B5AC1A} = {E0B34C23-52C1-46EB-8122-9E76C4B5AC1A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +68,10 @@ Global
 		{2ABA941D-1E12-4401-944B-53603F410319}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ABA941D-1E12-4401-944B-53603F410319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ABA941D-1E12-4401-944B-53603F410319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F2EDCE-9613-4032-9BD1-A3F81BF44022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F2EDCE-9613-4032-9BD1-A3F81BF44022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F2EDCE-9613-4032-9BD1-A3F81BF44022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F2EDCE-9613-4032-9BD1-A3F81BF44022}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace DotnetCrawler.Downloader
 {
-    public interface IDotnetCrawlerDownloader
+    public interface IWebClientService
     {
-        Task<HtmlDocument> Download(string crawlUrl);
+        Task<HtmlDocument> FromWebAsync(string url);
     }
 }

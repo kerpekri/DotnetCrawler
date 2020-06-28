@@ -1,6 +1,6 @@
 ﻿using DotnetCrawler.Core;
 using DotnetCrawler.Data.Models.Clarteys;
-using DotnetCrawler.Downloader;
+using DotnetCrawler.Downloader.Implementations;
 using DotnetCrawler.Pipeline;
 using DotnetCrawler.Processor;
 using DotnetCrawler.Request;
@@ -24,7 +24,7 @@ namespace DotnetCrawler.Clarteys
         {
             var crawler = new DotnetCrawler<ClarteysApartment>()
                 .AddRequest(new DotnetCrawlerRequest { Url = ApartmentUrl, Regex = RegExp, TimeOut = 5000 })
-                .AddDownloader(new DotnetCrawlerDownloader { DownloderType = DotnetCrawlerDownloaderType.FromFile, DownloadPath = @"C:\DotnetCrawlercrawler\Clarteys" })
+                .AddDownloader(new DotnetCrawlerDownloader { })
                 .AddProcessor(new DotnetCrawlerProcessor<ClarteysApartment> { })
                 .AddPipeline(new DotnetCrawlerPipeline<ClarteysApartment> { });
 
