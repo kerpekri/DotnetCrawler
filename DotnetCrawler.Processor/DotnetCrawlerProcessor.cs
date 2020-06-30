@@ -33,11 +33,12 @@ namespace DotnetCrawler.Processor
             var entityExpression = ReflectionHelper.GetEntityExpression<TEntity>();
             var propertyExpressions = ReflectionHelper.GetPropertyAttributes<TEntity>();
 
-            // todo: kke: handle that this can be null!! and log this ASAP!
             HtmlNode entityNode = document.DocumentNode.SelectSingleNode(entityExpression);
-            // todo: kke: handle that this can be null!! and log this ASAP!
 
-            ProcessProperties(columnNameValueDictionary, propertyExpressions, entityNode);
+            if (entityNode != null)
+            {
+                ProcessProperties(columnNameValueDictionary, propertyExpressions, entityNode);
+            }
 
             return columnNameValueDictionary;
         }
@@ -50,29 +51,36 @@ namespace DotnetCrawler.Processor
                 object columnValue = null;
                 var fieldExpression = expression.Value.Item2;
 
-                switch (expression.Value.Item1)
-                {
-                    case SelectorType.XPath:
-                        var node = entityNode.SelectSingleNode(fieldExpression);
-                        if (node != null)
-                            columnValue = node.InnerText;
-                        break;
-                    case SelectorType.CssSelector:
-                        var nodeCss = entityNode.QuerySelector(fieldExpression);
-                        if (nodeCss != null)
-                            columnValue = nodeCss.InnerText;
-                        break;
-                    case SelectorType.FixedValue:
-                        if (Int32.TryParse(fieldExpression, out var result))
-                        {
-                            columnValue = result;
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                columnValue = SelectorType(entityNode, expression, columnValue, fieldExpression);
                 columnNameValueDictionary.Add(columnName, columnValue);
             }
+        }
+
+        private static object SelectorType(HtmlNode entityNode, KeyValuePair<string, Tuple<SelectorType, string>> expression, object columnValue, string fieldExpression)
+        {
+            switch (expression.Value.Item1)
+            {
+                case Data.Attributes.SelectorType.XPath:
+                    var node = entityNode.SelectSingleNode(fieldExpression);
+                    if (node != null)
+                        columnValue = node.InnerText;
+                    break;
+                case Data.Attributes.SelectorType.CssSelector:
+                    var nodeCss = entityNode.QuerySelector(fieldExpression);
+                    if (nodeCss != null)
+                        columnValue = nodeCss.InnerText;
+                    break;
+                case Data.Attributes.SelectorType.FixedValue:
+                    if (int.TryParse(fieldExpression, out var result))
+                    {
+                        columnValue = result;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return columnValue;
         }
     }
 }

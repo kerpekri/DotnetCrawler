@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 using Moq;
 using Xunit;
 
-namespace DotnetCrawler.Tests
+namespace DotnetCrawler.UnitTests
 {
     public class DownloaderShould
     {

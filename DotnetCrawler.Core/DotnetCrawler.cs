@@ -5,6 +5,8 @@ using DotnetCrawler.Pipeline;
 using DotnetCrawler.Processor;
 using DotnetCrawler.Request;
 using DotnetCrawler.Scheduler;
+using HtmlAgilityPack;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DotnetCrawler.Core
@@ -55,12 +57,12 @@ namespace DotnetCrawler.Core
         public async Task Crawle()
         {
             var linkReader = new DotnetCrawlerPageLinkReader(new WebClientService());
-            var links = await linkReader.GetLinksAsync(Request, 0);
+            IEnumerable<string> links = await linkReader.GetLinksAsync(Request, 0);
 
-            foreach (var url in links)
+            foreach (string url in links)
             {
-                var document = await Downloader.Download(url);
-                var entity = await Processor.Process(document);
+                HtmlDocument document = await Downloader.Download(url);
+                IEnumerable<TEntity> entity = await Processor.Process(document);
                 await Pipeline.Run(entity);
             }
         }

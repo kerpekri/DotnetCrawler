@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DotnetCrawler.Tests
+namespace DotnetCrawler.UnitTests
 {
     public class PageLinkReaderShould
     {
@@ -47,7 +47,7 @@ namespace DotnetCrawler.Tests
         [Fact]
         public async void GetLinksAsync_ReturnsAllLinks()
         {
-            string html = DummyHtml();
+            string html = RootHtml();
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
@@ -67,7 +67,7 @@ namespace DotnetCrawler.Tests
         [Fact]
         public async void GetLinksAsync_ReturnsLink_BasedOnRegularExpression()
         {
-            string html = DummyHtml();
+            string html = RootHtml();
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
@@ -84,7 +84,27 @@ namespace DotnetCrawler.Tests
             webClientMock.Verify(m => m.FromWebAsync(It.IsAny<string>()), Times.Exactly(1));
         }
 
-        private static string DummyHtml()
+        [Fact]
+        public async void GetLinksAsync_ReturnsChildLinks()
+        {
+            string html = ChildHtml();
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            DotnetCrawlerRequest request = new DotnetCrawlerRequest() { };
+
+            Mock<IWebClientService> webClientMock = new Mock<IWebClientService>();
+            webClientMock.Setup(a => a.FromWebAsync(It.IsAny<string>())).ReturnsAsync(htmlDocument);
+
+            DotnetCrawlerPageLinkReader linkReader = new DotnetCrawlerPageLinkReader(webClientMock.Object);
+            IEnumerable<string> links = await linkReader.GetLinksAsync(request, 1);
+
+            links.Should().NotBeEmpty().And.HaveCount(1).And.ContainItemsAssignableTo<string>();
+            webClientMock.Verify(m => m.FromWebAsync(It.IsAny<string>()), Times.Exactly(3));
+        }
+
+        private static string RootHtml()
         {
             return @"<!DOCTYPE html>
                 <html>
@@ -97,6 +117,18 @@ namespace DotnetCrawler.Tests
                     </div>
                     <div class='name'>
                        <a href='https://magic.url/101'>Some text 2</a>
+                    </div>
+                </body>
+                </html> ";
+        }
+
+        private static string ChildHtml()
+        {
+            return @"<!DOCTYPE html>
+                <html>
+                <body>
+                    <div class='name'>
+                       <a href='https://test.url/100'>Some text 1</a>
                     </div>
                 </body>
                 </html> ";

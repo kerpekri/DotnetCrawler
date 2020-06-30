@@ -42,20 +42,27 @@ namespace DotnetCrawler.Downloader.Implementations
 
                 IEnumerable<string> links = ProcessLinks(htmlDocument);
 
-                if (!string.IsNullOrWhiteSpace(request.Regex))
-                {
-                    var regex = new Regex(request.Regex);
-
-                    if (regex != null)
-                        links = links.Where(x => regex.IsMatch(x));
-                }
+                links = FilterByRegularExpression(request, links);
 
                 return links;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return Enumerable.Empty<string>();
             }
+        }
+
+        private static IEnumerable<string> FilterByRegularExpression(DotnetCrawlerRequest request, IEnumerable<string> links)
+        {
+            if (!string.IsNullOrWhiteSpace(request.Regex))
+            {
+                var regex = new Regex(request.Regex);
+
+                if (regex != null)
+                    links = links.Where(x => regex.IsMatch(x));
+            }
+
+            return links;
         }
 
         private static IEnumerable<string> ProcessLinks(HtmlDocument htmlDocument)
