@@ -1,53 +1,58 @@
 ﻿using DotnetCrawler.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DotnetCrawler.Data.Repository
 {
-    //used this resources : https://codingblast.com/entity-framework-core-generic-repository/
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
     {
         private readonly CrawlerContext _dbContext;
+        private readonly DbSet<TEntity> _entities;
 
         public GenericRepository()
         {
             _dbContext = new CrawlerContext();
+            _entities = _dbContext.Set<TEntity>();
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            return _dbContext.Set<TEntity>().AsNoTracking();
+            return _entities.AsNoTracking();
         }
 
         public async Task<TEntity> GetById(Guid id)
         {
-            return await _dbContext.Set<TEntity>()
+            return await _entities
                         .AsNoTracking()
                         .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task CreateAsync(TEntity entity)
         {
-            await _dbContext.Set<TEntity>().AddAsync(entity);
+            await _entities.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task Update(int id, TEntity entity)
         {
-            _dbContext.Set<TEntity>().Update(entity);
+            _entities.Update(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task Delete(Guid id)
         {
             var entity = await GetById(id);
-            _dbContext.Set<TEntity>().Remove(entity);
+            _entities.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> GetByAddressAndPrice(string price, string address)
+        {
+            return await _entities
+                        .AsNoTracking()
+                        .AnyAsync(e => e.Price == price && e.Address == address);
+        }
     }
 }

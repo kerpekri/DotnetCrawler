@@ -15,9 +15,12 @@ namespace DotnetCrawler.Pipeline
 
         public async Task Run(IEnumerable<TEntity> entityList)
         {
-            foreach (var entity in entityList)
+            foreach (TEntity entity in entityList)
             {
-                await _repository.CreateAsync(entity);
+                if (await _repository.GetByAddressAndPrice(entity.Price, entity.Address) == false)
+                {
+                    await _repository.CreateAsync(entity);
+                }
             }
         }
     }

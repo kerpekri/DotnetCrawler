@@ -1,9 +1,6 @@
 ﻿using DotnetCrawler.Data.Attributes;
 using DotnetCrawler.Data.Repository;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace DotnetCrawler.Data.Models.Clarteys
 {
@@ -23,5 +20,6 @@ namespace DotnetCrawler.Data.Models.Clarteys
 
         [DotnetCrawlerField(Expression = "//li[3]/div[2]/b/text()", SelectorType = SelectorType.XPath)]
         public string Area { get; set; }
+        public string Price { get; set; }
     }
 }

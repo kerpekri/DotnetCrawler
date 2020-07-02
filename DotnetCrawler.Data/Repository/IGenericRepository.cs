@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DotnetCrawler.Data.Repository
@@ -13,5 +11,6 @@ namespace DotnetCrawler.Data.Repository
         Task CreateAsync(TEntity entity);
         Task Update(int id, TEntity entity);
         Task Delete(Guid id);
+        Task<bool> GetByAddressAndPrice(string price, string address);
     }
 }
